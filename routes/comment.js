@@ -3,7 +3,7 @@ const comment = Router();
 
 // Create Comment
 
-comment.comment("/", () => {});
+comment.post("/", () => {});
 
 // Read All Comments Of Post
 
