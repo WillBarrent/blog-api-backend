@@ -1,11 +1,17 @@
 const passport = require("passport");
-const { createPost } = require("../models/post");
+const {
+  createPost,
+  readPostById,
+  readAllPosts,
+  updatePostById,
+  deletePostById,
+} = require("../models/post");
 
 const postCreate = [
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const userId = req.user.userId;
-    const {title, content} = req.body;
+    const { title, content } = req.body;
 
     await createPost(userId, title, content);
 
@@ -15,13 +21,50 @@ const postCreate = [
   },
 ];
 
-const postRead = (req, res) => {};
+const postRead = async (req, res) => {
+  const { postId } = req.params;
 
-const postReadAll = (req, res) => {};
+  const post = await readPostById(postId);
 
-const postUpdate = (req, res) => {};
+  res.json({
+    post,
+  });
+};
 
-const postDelete = (req, res) => {};
+const postReadAll = async (req, res) => {
+  const posts = await readAllPosts();
+
+  res.json({
+    posts,
+  });
+};
+
+const postUpdate = [
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { postId } = req.params;
+    const { title, content } = req.body;
+
+    const post = await updatePostById(postId, title, content);
+
+    res.json({
+      json,
+    });
+  },
+];
+
+const postDelete = [
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { postId } = req.params;
+
+    await deletePostById(postId);
+
+    res.json({
+      msg: "Post has been deleted.",
+    });
+  },
+];
 
 module.exports = {
   postCreate,

@@ -1,37 +1,21 @@
-const { PrismaClient } = require("../generated/prisma");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const { createUser, findUser } = require("../models/auth");
 
 const signUp = async function (req, res) {
   const { username, email, password } = req.body;
 
-  const prisma = new PrismaClient();
-
-  const user = await prisma.user.create({
-    data: {
-      username: username,
-      email: email,
-      password: password,
-    },
-  });
+  await createUser(username, email, password);
 
   res.json({
     msg: "User has been created successfully.",
-    user: user,
   });
 };
 
 const login = async function (req, res) {
   const { username, email, password } = req.body;
 
-  const prisma = new PrismaClient();
-
-  const user = await prisma.user.findFirst({
-    where: {
-      username: username,
-      email: email,
-    },
-  });
+  const user = await findUser(username, email);
 
   if (!user) {
     return res.status(401).json({
@@ -46,6 +30,8 @@ const login = async function (req, res) {
   }
 
   const payload = { userId: user.id };
+
+  console.log(payload);
 
   jwt.sign(payload, "secret", (err, token) => {
     res.json({
