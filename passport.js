@@ -1,5 +1,5 @@
 const passport = require("passport");
-const { PrismaClient } = require("./generated/prisma");
+const { findUserById } = require("./models/auth");
 const jwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const options = {
@@ -8,15 +8,9 @@ const options = {
 };
 
 const verifyCallback = async function (jwt_payload, done) {
-  const prisma = new PrismaClient();
-
   const userId = jwt_payload.userId;
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-  });
+  const user = await findUserById(userId);
 
   if (!user) {
     done(null, false);
