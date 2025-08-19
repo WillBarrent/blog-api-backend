@@ -20,6 +20,7 @@
   "homepage": "https://github.com/WillBarrent/blog-api-backend#readme",
   "dependencies": {
     "@prisma/client": "^6.13.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",

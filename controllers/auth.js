@@ -1,11 +1,14 @@
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const { createUser, findUser } = require("../models/auth");
+const { hashPassword, verifyPassword } = require("../utils/password");
 
 const signUp = async function (req, res) {
   const { username, email, password } = req.body;
 
-  await createUser(username, email, password);
+  const hashedPassword = await hashPassword(password);
+
+  await createUser(username, email, hashedPassword);
 
   res.json({
     msg: "User has been created successfully.",
@@ -23,15 +26,15 @@ const login = async function (req, res) {
     });
   }
 
-  if (user.password !== password) {
+  const isPasswordCorrect = await verifyPassword(user.password, password);
+
+  if (!isPasswordCorrect) {
     return res.status(401).json({
       msg: "Password is not correct",
     });
   }
 
   const payload = { userId: user.id };
-
-  console.log(payload);
 
   jwt.sign(payload, "secret", (err, token) => {
     res.json({
