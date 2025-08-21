@@ -6,18 +6,29 @@ const {
   updatePostById,
   deletePostById,
 } = require("../models/post");
+const { validationResult } = require("express-validator");
 
 const postCreate = [
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const userId = req.user.userId;
-    const { title, content } = req.body;
+    try {
+      const errors = validationResult(req);
 
-    await createPost(userId, title, content);
+      if (!errors.isEmpty()) {
+        return res.json(errors);
+      }
 
-    res.json({
-      msg: "Post created",
-    });
+      const userId = req.user.userId;
+      const { title, content } = req.body;
+
+      await createPost(userId, title, content);
+
+      res.json({
+        msg: "Post created",
+      });
+    } catch (e) {
+      next(e);
+    }
   },
 ];
 
@@ -42,14 +53,24 @@ const postReadAll = async (req, res) => {
 const postUpdate = [
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { postId } = req.params;
-    const { title, content } = req.body;
+    try {
+      const errors = validationResult(req);
 
-    const post = await updatePostById(postId, title, content);
+      if (!errors.isEmpty()) {
+        return res.json(errors);
+      }
 
-    res.json({
-      json,
-    });
+      const { postId } = req.params;
+      const { title, content } = req.body;
+
+      const post = await updatePostById(postId, title, content);
+
+      res.json({
+        post,
+      });
+    } catch (e) {
+      next(e);
+    }
   },
 ];
 

@@ -2,17 +2,28 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const { createUser, findUser } = require("../models/auth");
 const { hashPassword, verifyPassword } = require("../utils/password");
+const { validationResult } = require("express-validator");
 
 const signUp = async function (req, res) {
-  const { username, email, password } = req.body;
+  try {
+    const errors = validationResult(req);
 
-  const hashedPassword = await hashPassword(password);
+    if (!errors.isEmpty()) {
+      return res.json(errors);
+    }
 
-  await createUser(username, email, hashedPassword);
+    const { username, email, password } = req.body;
 
-  res.json({
-    msg: "User has been created successfully.",
-  });
+    const hashedPassword = await hashPassword(password);
+
+    await createUser(username, email, hashedPassword);
+
+    res.json({
+      msg: "User has been created successfully.",
+    });
+  } catch (e) {
+    next(e);
+  }
 };
 
 const login = async function (req, res) {

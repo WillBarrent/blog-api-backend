@@ -8,15 +8,25 @@ const {
 const commentCreate = [
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { postId } = req.params;
-    const { content } = req.body;
+    try {
+      const errors = validationResult(req);
 
-    const comment = await createComment(postId, content);
+      if (!errors.isEmpty()) {
+        return res.json(errors);
+      }
 
-    res.json({
-      msg: "Comment created",
-      comment,
-    });
+      const { postId } = req.params;
+      const { content } = req.body;
+
+      const comment = await createComment(postId, content);
+
+      res.json({
+        msg: "Comment created",
+        comment,
+      });
+    } catch (e) {
+      next(e);
+    }
   },
 ];
 
@@ -31,14 +41,24 @@ const commentReadAll = async (req, res) => {
 const commentUpdate = [
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { content } = req.body;
-    const { commentId } = req.params;
+    try {
+      const errors = validationResult(req);
 
-    const comment = await updateCommentById(commentId, content);
+      if (!errors.isEmpty()) {
+        return res.json(errors);
+      }
 
-    res.json({
-      comment: comment,
-    });
+      const { content } = req.body;
+      const { commentId } = req.params;
+
+      const comment = await updateCommentById(commentId, content);
+
+      res.json({
+        comment: comment,
+      });
+    } catch (e) {
+      next(e);
+    }
   },
 ];
 
