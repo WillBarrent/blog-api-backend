@@ -1,8 +1,8 @@
 const {
   createComment,
   readAllComments,
-  updateCommentById,
-  deleteCocommentDeletemmentById,
+  updateCommentById,,
+  deleteCommentById,
 } = require("../models/comment");
 
 const commentCreate = [
@@ -67,7 +67,7 @@ const commentDelete = [
   async (req, res) => {
     const { commentId } = req.params;
 
-    await deleteCocommentDeletemmentById(commentId);
+    await deleteCommentById(commentId);
 
     res.json({
       msg: "Commentary has been deleted.",

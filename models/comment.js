@@ -54,5 +54,5 @@ module.exports = {
   createComment,
   readAllComments,
   updateCommentById,
-  deleteCocommentDeletemmentById,
+  deleteCommentById,
 };
