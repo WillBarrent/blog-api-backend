@@ -1,9 +1,11 @@
 const {
   createComment,
   readAllComments,
-  updateCommentById,,
+  updateCommentById,
   deleteCommentById,
 } = require("../models/comment");
+
+const passport = require("passport");
 
 const commentCreate = [
   passport.authenticate("jwt", { session: false }),
