@@ -5,7 +5,9 @@ const app = express();
 const auth = require("./routes/auth");
 const post = require("./routes/post");
 const comment = require("./routes/comment");
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
