@@ -14,8 +14,6 @@ const signUp = async function (req, res) {
 
     const { username, email, password } = req.body;
 
-    console.log(username);
-
     const hashedPassword = await hashPassword(password);
 
     await createUser(username, email, hashedPassword);
