@@ -38,6 +38,7 @@ const login = async function (req, res) {
   }
 
   const isPasswordCorrect = await verifyPassword(user.password, password);
+  const isAuthor = user.author;
 
   if (!isPasswordCorrect) {
     return res.status(401).json({
@@ -50,6 +51,8 @@ const login = async function (req, res) {
   jwt.sign(payload, "secret", (err, token) => {
     res.json({
       token,
+      username,
+      isAuthor,
     });
   });
 };
@@ -57,7 +60,7 @@ const login = async function (req, res) {
 const logout = [
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req);
+
 
     res.json({
       msg: "Logout successfully",
