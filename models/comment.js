@@ -32,7 +32,7 @@ const readAllComments = async function () {
 const updateCommentById = async function (commentId, content) {
   const comment = await prisma.comment.update({
     where: {
-      id: commentId,
+      id: Number(commentId),
     },
     data: {
       content: content,
@@ -45,7 +45,7 @@ const updateCommentById = async function (commentId, content) {
 const deleteCommentById = async function (commentId) {
   await prisma.comment.delete({
     where: {
-      id: commentId,
+      id: Number(commentId),
     },
   });
 };

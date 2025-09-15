@@ -26,7 +26,7 @@ const findUser = async function (username, email) {
 const findUserById = async function (userId) {
   const user = await prisma.user.findFirst({
     where: {
-      id: userId,
+      id: Number(userId),
     },
   });
 

@@ -3,7 +3,7 @@ const prisma = require("./db");
 const createPost = async function (userId, title, content) {
   const post = await prisma.post.create({
     data: {
-      authorId: userId,
+      authorId: Number(userId),
       title: title,
       content: content,
     },
@@ -15,7 +15,7 @@ const createPost = async function (userId, title, content) {
 const readPostById = async function (postId) {
   const post = await prisma.post.findFirst({
     where: {
-      id: postId,
+      id: Number(postId),
     },
   });
 
@@ -31,7 +31,7 @@ const readAllPosts = async function () {
 const updatePostById = async function (postId, title, content) {
   const post = await prisma.post.update({
     where: {
-      id: postId,
+      id: Number(postId),
     },
     data: {
       title: title,
@@ -45,7 +45,7 @@ const updatePostById = async function (postId, title, content) {
 const deletePostById = async function (postId) {
   const post = await prisma.post.delete({
     where: {
-      id: postId,
+      id: Number(postId),
     },
   });
 
