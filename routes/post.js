@@ -19,7 +19,7 @@ post.get("/:postId", postRead);
 
 // Read All Posts
 
-post.get("/", () => postReadAll);
+post.get("/", postReadAll);
 
 // Update Post
 
