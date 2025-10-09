@@ -4,12 +4,13 @@ const createComment = async function (postId, content) {
   const comment = await prisma.comment.create({
     data: {
       content: content,
+      postId: Number(postId),
     },
   });
 
   const post = await prisma.post.update({
     where: {
-      id: postId,
+      id: Number(postId),
     },
     data: {
       comments: {
