@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const {
   createComment,
   readAllComments,
@@ -9,7 +10,7 @@ const passport = require("passport");
 
 const commentCreate = [
   passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const errors = validationResult(req);
 
@@ -42,7 +43,7 @@ const commentReadAll = async (req, res) => {
 
 const commentUpdate = [
   passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const errors = validationResult(req);
 
