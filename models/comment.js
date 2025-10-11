@@ -24,8 +24,12 @@ const createComment = async function (postId, content) {
   return post;
 };
 
-const readAllComments = async function () {
-  const comments = await prisma.comment.findMany();
+const readAllComments = async function (postId) {
+  const comments = await prisma.comment.findMany({
+    where: {
+      postId: Number(postId)
+    }
+  });
 
   return comments;
 };

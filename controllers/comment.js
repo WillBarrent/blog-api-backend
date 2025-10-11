@@ -34,7 +34,9 @@ const commentCreate = [
 ];
 
 const commentReadAll = async (req, res) => {
-  const comments = await readAllComments();
+  const { postId } = req.params;
+
+  const comments = await readAllComments(postId);
 
   res.json({
     comments,
