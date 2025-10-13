@@ -7,6 +7,7 @@ const {
   deletePostById,
 } = require("../models/post");
 const { validationResult } = require("express-validator");
+const { deleteAllPostComments } = require("../models/comment");
 
 const postCreate = [
   passport.authenticate("jwt", { session: false }),
@@ -79,6 +80,7 @@ const postDelete = [
   async (req, res) => {
     const { postId } = req.params;
 
+    await deleteAllPostComments(postId);
     await deletePostById(postId);
 
     res.json({

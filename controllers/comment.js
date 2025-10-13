@@ -19,9 +19,9 @@ const commentCreate = [
       }
 
       const { postId } = req.params;
-      const { content } = req.body;
-
-      const comment = await createComment(postId, content);
+      const { content, username } = req.body;
+        
+      const comment = await createComment(postId, content, username);
 
       res.json({
         msg: "Comment created",
