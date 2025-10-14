@@ -28,7 +28,7 @@ const readAllPosts = async function () {
   return posts;
 };
 
-const updatePostById = async function (postId, title, content) {
+const updatePostById = async function (postId, title, content, published) {
   const post = await prisma.post.update({
     where: {
       id: Number(postId),
@@ -36,6 +36,7 @@ const updatePostById = async function (postId, title, content) {
     data: {
       title: title,
       content: content,
+      published: published,
     },
   });
 

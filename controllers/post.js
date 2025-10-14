@@ -62,9 +62,9 @@ const postUpdate = [
       }
 
       const { postId } = req.params;
-      const { title, content } = req.body;
+      const { title, content, published } = req.body;
 
-      const post = await updatePostById(postId, title, content);
+      const post = await updatePostById(postId, title, content, published);
 
       res.json({
         post,
