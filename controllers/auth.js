@@ -33,7 +33,7 @@ const login = async function (req, res) {
 
   if (!user) {
     return res.status(401).json({
-      msg: "No user found.",
+      errors: [{ msg: "No user found.", path: "username" }],
     });
   }
 
@@ -42,7 +42,12 @@ const login = async function (req, res) {
 
   if (!isPasswordCorrect) {
     return res.status(401).json({
-      msg: "Password is not correct",
+      errors: [
+        {
+          msg: "Password is not correct",
+          path: "password",
+        },
+      ],
     });
   }
 
@@ -60,8 +65,6 @@ const login = async function (req, res) {
 const logout = [
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-
-
     res.json({
       msg: "Logout successfully",
     });
