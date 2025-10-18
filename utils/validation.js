@@ -16,7 +16,7 @@ const validateUser = [
   body("password")
     .trim()
     .notEmpty()
-    .withMessage("Email must be filled")
+    .withMessage("Password must be filled")
     .isLength({ min: 8 })
     .withMessage("Password`s length must be at least 8 characters")
     .isAlphanumeric()

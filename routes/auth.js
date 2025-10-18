@@ -5,6 +5,6 @@ const auth = Router();
 
 auth.post("/sign-up", validateUser, signUp);
 auth.post("/login", login);
-auth.post("/logout", logout);
+auth.get("/logout", logout);
 
 module.exports = auth;
