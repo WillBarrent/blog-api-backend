@@ -15,8 +15,14 @@ const createUser = async function (username, email, password) {
 const findUser = async function (username, email) {
   const user = await prisma.user.findFirst({
     where: {
-      username: username,
-      email: email,
+      OR: [
+        {
+          email: email,
+        },
+        {
+          username: username,
+        },
+      ],
     },
   });
 
@@ -36,5 +42,5 @@ const findUserById = async function (userId) {
 module.exports = {
   createUser,
   findUser,
-  findUserById
+  findUserById,
 };

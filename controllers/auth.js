@@ -14,6 +14,20 @@ const signUp = async function (req, res) {
 
     const { username, email, password } = req.body;
 
+    const usernameOrEmailTaken = await findUser(username, email);
+
+    if (usernameOrEmailTaken) {
+      return res.json({
+        errors: [
+          {
+            msg: "Username or email already has been taken.",
+            path: "username",
+          },
+          { msg: "Username or email already has been taken.", path: "email" },
+        ],
+      });
+    }
+
     const hashedPassword = await hashPassword(password);
 
     await createUser(username, email, hashedPassword);
