@@ -17,6 +17,18 @@ const readPostById = async function (postId) {
     where: {
       id: Number(postId),
     },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      createdAt: true,
+      published: true,
+      author: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
 
   return post;
