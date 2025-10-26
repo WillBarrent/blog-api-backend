@@ -8,6 +8,7 @@ const {
 } = require("../models/post");
 const { validationResult } = require("express-validator");
 const { deleteAllPostComments } = require("../models/comment");
+const { findUserById } = require("../models/auth");
 
 const postCreate = [
   passport.authenticate("jwt", { session: false }),
@@ -20,6 +21,19 @@ const postCreate = [
       }
 
       const userId = req.user.userId;
+      const userById = await findUserById(userId);
+
+      if (!userById.author) {
+        return res.json({
+          errors: [
+            {
+              msg: "User is not an author",
+              path: "post",
+            },
+          ],
+        });
+      }
+
       const { title, content } = req.body;
 
       await createPost(userId, title, content);
@@ -59,6 +73,20 @@ const postUpdate = [
 
       if (!errors.isEmpty()) {
         return res.json(errors);
+      }
+
+      const userId = req.user.userId;
+      const userById = await findUserById(userId);
+
+      if (!userById.author) {
+        return res.json({
+          errors: [
+            {
+              msg: "User is not an author",
+              path: "post",
+            },
+          ],
+        });
       }
 
       const { postId } = req.params;
